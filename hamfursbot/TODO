@@ -1,0 +1,13 @@
+Refactor callsign search resolution order
+=========================================
+ 1. See if we have an alias stored for the callsign
+ 2. Is callsign Canadian? Do lookup on local IC data
+    *Exists there? Format and return data +/- alias
+ 3. Is callsign American? 
+    a. Attempt lookup on callook.info
+      * Exists there? then:
+        - Get VE information locally, add info to output 
+        - Format and return data +/- alias
+ 4. Attempt hamqth lookup.
+    * Exists there? Format and return data +/- alias
+ 5. Get theoretical callsign country and return flag +/- alias if one is stored.

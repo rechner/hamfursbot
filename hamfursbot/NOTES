@@ -1,0 +1,29 @@
+APRS integration:
+
+- Using aprs-python library
+- APRS listener can be a forked process, and IPC can be handled over mongodb.
+- APRS has some housekeeping cron tasks:
+   · Every 30 minutes, send a position and status update
+   · Every 4? hours, send a bulletin announcing our presence
+   · Close and reopen stream after 24 hours
+
+RX Chain (APRS side)
+===================
+- Otherwise, busy-loop and check to see if a message is for us (KF3RRY-5 
+  callsign or HAMFURS alias) && type = 'message':
+   · Parse the PM designator and destination handle
+      [e.g. "@rechner message..." or @callsignalias]
+   · Relay the message to Telegram user or to hamfurs chat
+   · ACK for the message, and originate service message if undeliverable
+
+TX Chain (Telegram side)
+========================
+Before we can originate, we need a way to verify the user via an RF path:
+- Ensure Telegram user has registered a callsign alias.
+- Generate a random, 6-digit numeric code and instruct user to originate
+  a message over RF to KF3RRY-5 with contents "#verify <CODE>".  When code
+  is recieved, set "aprs verified" flag in alias database for that call.
+
+After verification, an user can use the /aprs command to specify a
+callsign to message, and the message body.  The message will be originated
+with "HAMFURS" or "KF3RRY-5" appended to the path(?).

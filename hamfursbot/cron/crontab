@@ -1,0 +1,4 @@
+06 0 * * * python3 /code/cron/dmr-marc/fetch.py
+14 0 * * * python3 /code/cron/arrl/refresh-session-counts.py > /dev/null
+30 0 * * * /code/cron/ic/refresh.sh > /tmp/ic_refresh.log 2> /dev/null
+

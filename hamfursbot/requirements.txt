@@ -1,0 +1,7 @@
+pyTelegramBotAPI
+pymongo
+metaphone
+pillow
+schedule
+bs4
+html5lib

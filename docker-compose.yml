@@ -1,0 +1,28 @@
+#vim: set sts=2 ts=2 sw=2 expandtab autoindent
+version: '2'
+
+services:
+  bot:
+    image: hamfursbot:latest
+    restart: always
+    depends_on:
+      - mongo
+    env_file:
+      - hamfurs.env
+    environment:
+      - HAMFURS_MONGO_HOST=mongo
+    
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - /opt/hamfurs_data:/data/db
+      # - /home/rechner/hamfurs_data/:/import
+
+  #mongo-express:
+  #  image: mongo-express
+  #  restart: always
+  #  ports:
+  #    - 8081:8081
+
+

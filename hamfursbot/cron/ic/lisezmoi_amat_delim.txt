@@ -1,0 +1,20 @@
+Chaque enregistrement a les données suivantes, séparées par ";"
+
+Indicatif d'appel
+Prénoms
+Nom
+Adresse
+Ville
+Province
+Code postal
+Compétence DE BASE (A)
+Compétence 5 MOTS/MIN (B)
+Compétence 12 MOTS/MIN (C)
+Compétence SUPÉRIEURE (D)
+Compétence DE BASE AVEC DISTINCTION (E)
+Nom du club (champ 1)
+Nom du club (champ 2)
+Adresse du club
+Ville du club
+Province du club
+Code postal du club

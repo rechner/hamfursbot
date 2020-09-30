@@ -1,0 +1,5 @@
+secrets.py
+__pycache__
+*.swp
+.venv/
+hamfurs.env
