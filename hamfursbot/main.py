@@ -1216,8 +1216,8 @@ def ve_lookup(callsign):
     result = collection.find_one({"callsign": callsign.upper()})
 
 
-# @bot.edited_message_handler(commands=['conditions', 'band_conditions'])
-# @bot.message_handler(commands=['conditions', 'band_conditions'])
+@bot.edited_message_handler(commands=['conditions', 'band_conditions'])
+@bot.message_handler(commands=['conditions', 'band_conditions'])
 def band_conditions(message):
     chat_id = message.chat.id
     bot.send_chat_action(chat_id, "upload_photo")

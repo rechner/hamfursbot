@@ -4,6 +4,7 @@ version: '2'
 services:
   bot:
     image: hamfursbot:latest
+    build: hamfursbot
     restart: always
     depends_on:
       - mongo

@@ -16,6 +16,7 @@ RUN touch /var/log/cron.log
 RUN apt-get update
 RUN apt-get -y install cron
 
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 CMD cron && python3 ./main.py
