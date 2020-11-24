@@ -1148,7 +1148,11 @@ def process_lookup(message, callsign):
     )
 
     if result["type"] == "Club":
-        txt += u"*Trustee:* {trustee[callsign]}, {trustee[name]}".format(**result)
+        result['trustee_alias'] = hamfurs.find_one({"callsign": result['trustee']['callsign']})
+        if result['trustee_alias']:
+            txt += u"*Trustee:* {trustee[callsign]}, @{trustee_alias[user_name]}".format(**result)
+        else:
+            txt += u"*Trustee:* {trustee[callsign]}, {trustee[name]}".format(**result)
 
     send_editable_message(message, text=txt, parse_mode="Markdown")
 
