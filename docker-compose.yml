@@ -12,6 +12,19 @@ services:
       - hamfurs.env
     environment:
       - HAMFURS_MONGO_HOST=mongo
+
+  cron:
+    image: hamfursbot-cron:latest
+    build:
+      context: hamfursbot
+      dockerfile: Dockerfile-cron
+    restart: always
+    depends_on:
+      - mongo
+    env_file:
+      - hamfurs.env
+    environment:
+      - HAMFURS_MONGO_HOST=mongo
     
   mongo:
     image: mongo
@@ -21,9 +34,9 @@ services:
       # - /home/rechner/hamfurs_data/:/import
 
   #mongo-express:
-  #  image: mongo-express
-  #  restart: always
-  #  ports:
-  #    - 8081:8081
+    #image: mongo-express
+    #restart: always
+    #ports:
+    #  - 8081:8081
 
 
