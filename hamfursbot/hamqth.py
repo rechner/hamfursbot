@@ -95,7 +95,7 @@ class HamQTH(object):
 
     self.retries = None
 
-    data = { child.tag[24:] : child.text for child in tree[0].getchildren() }
+    data = { child.tag[24:] : child.text for child in list(tree[0]) }
     return data
 
 if __name__ == '__main__':

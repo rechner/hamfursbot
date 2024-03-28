@@ -1022,53 +1022,15 @@ def process_lookup(message, callsign):
             send_editable_message(message, text=txt, parse_mode="Markdown")
             return
 
-    if is_australian(callsign):
-        req = requests.get(
-            "https://l1gfir5yi7.execute-api.us-east-1.amazonaws.com/prod/{0}".format(
-                callsign
-            )
-        )
-        if not req.ok:
-            send_editable_message(message, text="Callsign not found in ACMA database")
-            return
-        else:
-            result = req.json()
-            result["alias"] = alias_text
-            result["flag"] = FLAG_EMOJI["Australia"]
-            result["callsign"] = callsign.upper()
-            if alias is not None:
-                txt = u"""{flag} *{callsign}* - ({type} - {status})
-*Name:* {name}
-*Alias:* {alias}
-*Effective:* {date_of_effect}
-*Expiry:* {date_of_expiry}
-*Location:* {suburb}, {state} {postcode}
-""".format(
-                    **result
-                )
-            else:
-                txt = u"""{flag} *{callsign}* - ({type} - {status})
-*Name:* {name}
-*Effective:* {date_of_effect}
-*Expiry:* {date_of_expiry}
-*Location:* {suburb}, {state} {postcode}
-""".format(
-                    **result
-                )
-            if dmr_id is not None:
-                txt += "*DMR ID*: {0}\n".format(dmr_id)
-            txt += "[ACMA License Page]({link})".format(**result)
-            send_editable_message(
-                message, text=txt, parse_mode="Markdown", disable_web_page_preview=True
-            )
-            return
-
     # TODO: error handling
     req = requests.get("https://callook.info/{0}/json".format(callsign))
     if req.status_code != requests.codes.ok:
         send_editable_message(message, text="Please specify a valid callsign")
         return
-    result = req.json()
+    try:
+        result = req.json()
+    except:
+        return 
 
     collection = mongo_db.ve_session_counts
     ve_info = collection.find_one({"callsign": callsign.upper()})
@@ -1117,6 +1079,7 @@ def process_lookup(message, callsign):
             text += "[Submit Profile](https://hamqth.com/{0})".format(callsign)
         except Exception as e:
             text = "Error in HamQTH lookup."
+            logger.exception(e)
         if alias is None and data is None:
             country = callsigns.get_country(callsign)
             try:
