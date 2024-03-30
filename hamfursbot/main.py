@@ -284,9 +284,12 @@ def register_callsign(message):
 @bot.message_handler(commands=["unregister"])
 def unregister_callsign(message):
     chat_id = message.chat.id
-    r = db.delete({"user_id": message.from_user.id})
-    if r.modified_count:
+    db = mongo_client.hamfurs.aliases
+    r = db.delete_one({"user_id": message.from_user.id})
+    if r.deleted_count > 0:
         bot.send_message(chat_id=chat_id, text="Removed callsign alias for {0}".format(format_user(message.from_user)))
+    else:
+        bot.send_message(chat_id=chat_id, text="Callsign alias for {0} does not exist".format(format_user(message.from_user)))
 
 
 def register_alias(message, callsign):
